@@ -1,0 +1,52 @@
+## Downloads site: small bucket, a lot of traffic
+$ python3 calc.py --storage-gb 500 --egress-gb 5000 --gets 20000000 --puts 10000
+500 GB stored, 5,000 GB egress, 20,000,000 GETs, 10,000 PUTs, objects live 365 days (prices as of 2026-09-28)
+  Wasabi (pay-as-you-go)           $      7.99  billed for 1024 GB minimum; egress above stored data: outside Wasabi's free egress policy (no overage price; service may be limited)
+  Cloudflare R2 Standard           $     10.95  
+  Hetzner Object Storage (USD)     $     12.69  
+  Tigris Standard                  $     19.85  
+  Backblaze B2                     $     38.41  
+  Storj Standard                   $     38.50  
+  DigitalOcean Spaces              $     49.76  
+  Cloudflare R2 Infrequent Access  $     73.09  
+  AWS S3 Standard (us-east-1)      $    460.55  
+
+## Backups: big bucket, rare restores, 30-day retention
+$ python3 calc.py --storage-gb 10000 --egress-gb 200 --gets 100000 --puts 1000000 --lifetime-days 30
+10,000 GB stored, 200 GB egress, 100,000 GETs, 1,000,000 PUTs, objects live 30 days (prices as of 2026-09-28)
+  Backblaze B2                     $     69.43  
+  Storj Standard                   $     71.40  
+  Hetzner Object Storage (USD)     $     87.69  
+  Cloudflare R2 Infrequent Access  $    111.09  
+  Cloudflare R2 Standard           $    149.85  
+  DigitalOcean Spaces              $    200.00  
+  Tigris Standard                  $    204.85  
+  Wasabi (pay-as-you-go)           $    234.00  objects kept 30 days are billed for 90
+  AWS S3 Standard (us-east-1)      $    244.04  
+
+## Media: heavy egress, many reads
+$ python3 calc.py --storage-gb 2000 --egress-gb 50000 --gets 100000000 --puts 100000
+2,000 GB stored, 50,000 GB egress, 100,000,000 GETs, 100,000 PUTs, objects live 365 days (prices as of 2026-09-28)
+  Wasabi (pay-as-you-go)           $     15.60  egress above stored data: outside Wasabi's free egress policy (no overage price; service may be limited)
+  Cloudflare R2 Standard           $     62.25  
+  Hetzner Object Storage (USD)     $     75.55  
+  Tigris Standard                  $     90.30  
+  Storj Standard                   $    364.00  
+  Backblaze B2                     $    453.83  
+  DigitalOcean Spaces              $    529.76  
+  Cloudflare R2 Infrequent Access  $    610.90  
+  AWS S3 Standard (us-east-1)      $  4,379.20  
+
+## Side project
+$ python3 calc.py --storage-gb 50 --egress-gb 200 --gets 1000000 --puts 10000
+50 GB stored, 200 GB egress, 1,000,000 GETs, 10,000 PUTs, objects live 365 days (prices as of 2026-09-28)
+  Cloudflare R2 Standard           $      0.60  
+  Backblaze B2                     $      0.78  
+  Tigris Standard                  $      1.35  
+  Cloudflare R2 Infrequent Access  $      3.49  
+  DigitalOcean Spaces              $      5.00  
+  Storj Standard                   $      5.00  minimum monthly charge $5
+  Wasabi (pay-as-you-go)           $      7.99  billed for 1024 GB minimum; egress above stored data: outside Wasabi's free egress policy (no overage price; service may be limited)
+  Hetzner Object Storage (USD)     $      7.99  
+  AWS S3 Standard (us-east-1)      $     10.60  
+

@@ -1,0 +1,91 @@
+{
+  "as_of": "2026-09-28",
+  "notes": "Prices in USD for one month. The calculator treats GB, GiB and 1/1000 TB as the same unit; providers differ (AWS, DigitalOcean, Tigris and Wasabi bill binary units, Storj and Hetzner decimal), so real bills can differ by up to about 7%. Minimum object sizes and rounding rules are not modelled.",
+  "providers": [
+    {
+      "id": "aws-s3",
+      "name": "AWS S3 Standard (us-east-1)",
+      "storage_tiers": [[51200, 0.023], [512000, 0.022], [null, 0.021]],
+      "egress": {"free_gb": 100, "tiers": [[10240, 0.09], [51200, 0.085], [153600, 0.07], [null, 0.05]]},
+      "requests": {"class_a_per_1000": 0.005, "class_b_per_1000": 0.0004},
+      "sources": ["https://aws.amazon.com/s3/pricing/", "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AWSDataTransfer/current/us-east-1/index.json"],
+      "fine_print": "The 100 GB free egress is per AWS account across all services and Regions. Aborted downloads are billed for the bytes sent."
+    },
+    {
+      "id": "r2-standard",
+      "name": "Cloudflare R2 Standard",
+      "storage_tiers": [[10, 0.0], [null, 0.015]],
+      "egress": {"tiers": [[null, 0.0]]},
+      "requests": {"class_a_per_1000": 0.0045, "free_class_a": 1000000, "class_b_per_1000": 0.00036, "free_class_b": 10000000},
+      "sources": ["https://developers.cloudflare.com/r2/pricing/"],
+      "fine_print": "Egress is free but every GET and HEAD is a Class B operation. Usage is rounded up to the next billing unit. r2.dev URLs are rate-limited and meant for development."
+    },
+    {
+      "id": "r2-ia",
+      "name": "Cloudflare R2 Infrequent Access",
+      "storage_tiers": [[null, 0.01]],
+      "egress": {"tiers": [[null, 0.0]]},
+      "retrieval_per_gb": 0.01,
+      "min_storage_days": 30,
+      "requests": {"class_a_per_1000": 0.009, "class_b_per_1000": 0.0009},
+      "sources": ["https://developers.cloudflare.com/r2/pricing/"],
+      "fine_print": "Every read or copy is charged $0.01/GB retrieval. 30-day minimum storage. The free tier does not apply."
+    },
+    {
+      "id": "b2",
+      "name": "Backblaze B2",
+      "storage_tiers": [[10, 0.0], [null, 0.00695]],
+      "egress": {"free_ratio_of_storage": 3, "tiers": [[null, 0.01]]},
+      "requests": {},
+      "sources": ["https://www.backblaze.com/cloud-storage/pricing", "https://www.backblaze.com/blog/backblaze-pricing-and-product-updates/"],
+      "fine_print": "Egress is free up to 3x average monthly storage, then $0.01/GB; unlimited only through partner CDNs and compute. API calls free since May 1, 2026 (event notifications excepted)."
+    },
+    {
+      "id": "wasabi",
+      "name": "Wasabi (pay-as-you-go)",
+      "storage_tiers": [[null, 0.0078]],
+      "min_billable_storage_gb": 1024,
+      "min_storage_days": 90,
+      "egress": {"tiers": [[null, 0.0]], "policy_max_ratio_of_storage": 1, "policy_note": "egress above stored data: outside Wasabi's free egress policy (no overage price; service may be limited)"},
+      "requests": {},
+      "sources": ["https://wasabi.com/pricing/faq", "https://docs.wasabi.com/docs/may-2026-wasabi-pricing"],
+      "fine_print": "1 TB monthly minimum, 90-day minimum per object (overwrites count as deletes), 4 KB minimum object size. Egress and API calls free subject to policy."
+    },
+    {
+      "id": "tigris",
+      "name": "Tigris Standard",
+      "storage_tiers": [[5, 0.0], [null, 0.02]],
+      "egress": {"tiers": [[null, 0.0]]},
+      "requests": {"class_a_per_1000": 0.005, "free_class_a": 10000, "class_b_per_1000": 0.0005, "free_class_b": 100000},
+      "sources": ["https://www.tigrisdata.com/pricing/"],
+      "fine_print": "Egress free with no ratio; requests are charged. Infrequent Access and Archive tiers have 30 and 90 day minimums."
+    },
+    {
+      "id": "do-spaces",
+      "name": "DigitalOcean Spaces",
+      "bundle": {"price": 5.0, "storage_gb": 250, "egress_gb": 1024, "extra_storage_per_gb": 0.02, "extra_egress_per_gb": 0.01},
+      "requests": {},
+      "sources": ["https://docs.digitalocean.com/products/spaces/details/pricing/", "https://docs.digitalocean.com/platform/billing/bandwidth/"],
+      "fine_print": "$5 includes 250 GiB storage and 1,024 GiB outbound transfer shared across buckets, including CDN traffic; then $0.02/GiB storage and $0.01/GiB transfer. Transfer to Droplets in the same datacenter group is free."
+    },
+    {
+      "id": "hetzner",
+      "name": "Hetzner Object Storage (USD)",
+      "bundle": {"price": 7.99, "storage_gb": 1000, "egress_gb": 1080, "extra_storage_per_gb": 0.008856, "extra_egress_per_gb": 0.0012},
+      "requests": {},
+      "sources": ["https://www.hetzner.com/storage/object-storage/", "https://docs.hetzner.com/storage/object-storage/overview/"],
+      "fine_print": "Base includes about 1 TB storage and 1 TB egress, accrued per hour (1.08 TB egress in a 30-day month); extra storage $0.0123 per TB-hour, extra egress $1.20/TB. 64 KB minimum object size. Billed even for an empty bucket."
+    },
+    {
+      "id": "storj",
+      "name": "Storj Standard",
+      "storage_tiers": [[null, 0.007]],
+      "min_storage_days": 30,
+      "egress": {"tiers": [[null, 0.007]]},
+      "requests": {},
+      "minimum_monthly": 5.0,
+      "sources": ["https://storj.dev/dcs/pricing/simplified", "https://www.storj.io/pricing"],
+      "fine_print": "$7/TB storage and $7/TB egress from the first byte, no API fees, 50 kB minimum object size, 30-day minimum, $5 minimum invoice."
+    }
+  ]
+}
