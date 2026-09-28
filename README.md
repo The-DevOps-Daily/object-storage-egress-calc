@@ -1,6 +1,6 @@
 # object-storage-egress-calc
 
-Price one month of S3-compatible object storage on nine providers, with the fine print applied: free-egress ratios, fair-use policies, bundles, minimum charges and minimum storage durations. No dependencies.
+Price one month of S3-compatible object storage on nine offerings from eight providers, with the fine print applied: free-egress ratios, fair-use policies, bundles, minimum charges and minimum storage durations. No dependencies.
 
 ```bash
 python3 calc.py --storage-gb 500 --egress-gb 5000 --gets 20000000 --puts 10000
@@ -26,7 +26,7 @@ python3 calc.py --storage-gb 500 --egress-gb 5000 --gets 20000000 --puts 10000
 
 Modelled: storage tiers and free allowances, egress tiers, free egress allowances (fixed, or a multiple of storage), fair-use policies (flagged as a note, since they have no price), bundles with overage rates, request prices and free request allowances, retrieval fees, minimum billable storage, minimum storage duration (approximated as billed days over kept days), minimum monthly charges.
 
-Not modelled: the difference between GB and GiB (up to about 7%), minimum billable object sizes (4 KB to 64 KB depending on provider), rounding rules, aborted-download billing, CDN plans in front of storage (such as the CloudFront flat-rate plans), taxes, and committed-use discounts. Hetzner is priced in its published USD rates.
+Not modelled: the difference between GB and GiB (about 7.4%; 10% between TB and TiB), minimum billable object sizes (4 KB to 64 KB depending on provider), rounding rules, aborted-download billing, CDN plans in front of storage (such as the CloudFront flat-rate plans), taxes, and committed-use discounts. Hetzner is priced in its published USD rates.
 
 Prices change. Check `providers.json` against the source URLs before you rely on a result.
 
